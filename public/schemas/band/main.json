@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Band Equipment Management",
+  "x-workflow": "band-equipment-management",
+  "x-type": "workflow",
+  "x-stages": ["equipmentCheckout", "practicePreparation", "performanceReadiness", "eventExecution", "equipmentReturn"],
+  "x-workflow-initiator-groups": "Student",
+  "x-default-assignee-user": "INITIATOR",
+  "x-default-assignee-group": "Student",
+  "x-queue-mappings": {
+    "Student": "STUDENT_EQUIPMENT_QUEUE",
+    "Band Director": "DIRECTOR_MANAGEMENT_QUEUE",
+    "Equipment Manager": "EQUIPMENT_MAINTENANCE_QUEUE"
+  },
+  "ui:schema": {},
+  "properties": {
+    "equipmentCheckout": {
+      "$ref": "stages/equipmentCheckout.json"
+    },
+    "practicePreparation": {
+      "type": "object",
+      "title": "Practice Preparation",
+      "properties": {}
+    },
+    "performanceReadiness": {
+      "type": "object",
+      "title": "Performance Readiness",
+      "properties": {}
+    },
+    "eventExecution": {
+      "type": "object",
+      "title": "Event Execution",
+      "properties": {}
+    },
+    "equipmentReturn": {
+      "type": "object",
+      "title": "Equipment Return",
+      "properties": {}
+    }
+  }
+}
