@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "readOnly": true,
+  "properties": {
+    "value": { "type": "string" },
+    "grade": { "type": "string" },
+    "section": { "type": "string" },
+    "contact": { "type": "string" }
+  }
+}

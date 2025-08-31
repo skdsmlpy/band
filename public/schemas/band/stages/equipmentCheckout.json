@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Equipment Checkout",
+  "description": "Student equipment checkout process",
+  "x-type": "stage",
+  "x-stage": "equipmentCheckout",
+  "x-assignee-user": "INITIATOR",
+  "x-subtypes": ["studentVerification", "equipmentSelection", "conditionCheck", "checkoutConfirmation"],
+  "ui:schema": {
+    "ui:options": {
+      "icon": "music_note"
+    }
+  },
+  "properties": {
+    "studentVerification": {
+      "$ref": "../sub-stages/equipmentCheckout/studentVerification.json"
+    },
+    "equipmentSelection": {
+      "$ref": "../sub-stages/equipmentCheckout/equipmentSelection.json"
+    },
+    "conditionCheck": {
+      "type": "object",
+      "title": "Condition Check",
+      "properties": {}
+    },
+    "checkoutConfirmation": {
+      "type": "object",
+      "title": "Checkout Confirmation",
+      "properties": {}
+    }
+  }
+}
