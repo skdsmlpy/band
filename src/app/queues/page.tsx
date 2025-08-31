@@ -1,8 +1,21 @@
 "use client";
 import { useAppSelector } from "@/store";
+import { useEffect, useState } from "react";
+import { apiGet } from "@/lib/api";
+
+type BTask = { id: string; title: string; status: string; priority: string };
 
 export default function QueuesPage() {
-  const items = useAppSelector((s) => s.tasks.items);
+  const token = useAppSelector((s) => s.auth.token);
+  const [items, setItems] = useState<BTask[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    apiGet<BTask[]>("/tasks", token || undefined)
+      .then((data) => { if (active) setItems(data as any); })
+      .catch(() => {});
+    return () => { active = false; };
+  }, [token]);
 
   return (
     <div className="space-y-4">

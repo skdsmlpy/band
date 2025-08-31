@@ -15,14 +15,25 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const onSubmit = (data: LoginForm) => {
-    dispatch(
-      loginSuccess({
-        token: "demo-token",
-        user: { id: "u1", name: "Demo User", email: data.email, role: data.role },
-      })
-    );
-    router.push("/dashboard");
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1"}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password })
+      });
+      if (!res.ok) throw new Error("Login failed");
+      const json = await res.json();
+      dispatch(
+        loginSuccess({
+          token: json.token,
+          user: { id: "me", name: json.name, email: data.email, role: data.role },
+        })
+      );
+      router.push("/dashboard");
+    } catch (e) {
+      alert("Authentication failed. Use admin@band.app / password");
+    }
   };
 
   return (
