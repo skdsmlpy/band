@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Equipment Selection",
+  "x-type": "sub-stage",
+  "x-sub-stage": "equipmentSelection",
+  "x-comments": "This schema captures the equipment selection process, ensuring proper instrument assignment based on student needs, availability, and compatibility.",
+  "x-implementation-notes": "Frontend Implementation: 1) Display available instruments by category. 2) Show equipment specifications and condition. 3) Allow QR code scanning for quick selection. 4) Validate compatibility with student requirements.",
+  "x-parent-stage": "equipmentCheckout",
+  "properties": {
+    "instrumentCategory": {
+      "type": "string",
+      "title": "Instrument Category",
+      "enum": ["brass", "woodwind", "percussion", "string", "electronic"],
+      "description": "Select the category of instrument needed",
+      "ui:schema": {
+        "ui:widget": "select",
+        "ui:options": {
+          "tooltip": "Select the appropriate instrument category based on student's band section assignment.\n\nCategories:\n• Brass: Trumpet, Trombone, French Horn, Tuba, Euphonium\n• Woodwind: Flute, Clarinet, Saxophone, Oboe, Bassoon\n• Percussion: Drums, Cymbals, Timpani, Mallet Instruments\n• String: Violin, Viola, Cello, Double Bass (if applicable)\n• Electronic: Keyboards, Amplifiers, Audio Equipment\n\nSelection should match student's assigned section and skill level for optimal learning experience."
+        }
+      }
+    },
+    "equipmentQRScan": {
+      "$ref": "../../fields/scanner.json",
+      "title": "Equipment QR Code Scan",
+      "description": "Scan QR code on selected equipment",
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Scan the QR code attached to the selected instrument or equipment.\n\nQR Code Information:\n✓ Unique equipment identifier\n✓ Instrument specifications and model\n✓ Current condition and maintenance history\n✓ Previous assignment records\n✓ Maintenance and calibration due dates\n\nEnsures accurate equipment tracking and assignment verification for inventory management."
+        }
+      }
+    },
+    "equipmentDetails": {
+      "$ref": "../../fields/readonly.json",
+      "title": "Equipment Details",
+      "description": "Display selected equipment information",
+      "ui:schema": {
+        "ui:expressions": {
+          "make": "$.equipmentDatabase.make",
+          "model": "$.equipmentDatabase.model",
+          "serialNumber": "$.equipmentDatabase.serialNumber",
+          "condition": "$.equipmentDatabase.condition",
+          "lastMaintenance": "$.equipmentDatabase.lastMaintenanceDate"
+        }
+      }
+    },
+    "accessoriesNeeded": {
+      "$ref": "../../fields/checklist.json",
+      "title": "Required Accessories",
+      "description": "Select additional accessories needed",
+      "x-checklist-items": [
+        { "id": "mouthpiece", "title": "Mouthpiece (Brass/Woodwind)", "description": "Instrument-specific mouthpiece or reed setup" },
+        { "id": "musicStand", "title": "Music Stand", "description": "Portable music stand for practice" },
+        { "id": "case", "title": "Instrument Case", "description": "Protective case for instrument transport" },
+        { "id": "cleaningKit", "title": "Cleaning/Maintenance Kit", "description": "Basic cleaning and maintenance supplies" },
+        { "id": "tuner", "title": "Electronic Tuner", "description": "Digital tuner for instrument tuning" }
+      ],
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Select all accessories needed for complete instrument setup.\n\nAccessory Guidelines:\n✓ Mouthpiece: Required for brass and some woodwinds\n✓ Music Stand: Essential for practice sessions\n✓ Case: Protective transport and storage\n✓ Cleaning Kit: Regular maintenance supplies\n✓ Tuner: Ensures proper instrument tuning\n\nProper accessories ensure student can effectively use and maintain the instrument throughout the checkout period."
+        }
+      }
+    }
+  },
+  "required": ["instrumentCategory", "equipmentQRScan", "equipmentDetails", "accessoriesNeeded"]
+}
