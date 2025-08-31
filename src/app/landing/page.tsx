@@ -11,11 +11,11 @@ async function fetcher(path: string) {
 }
 
 export default function LandingPage() {
-  const sys = useQuery({ queryKey: ["sys"], queryFn: () => fetcher("/mock/widgets/system-health"), refetchInterval: 10000 });
-  const quality = useQuery({ queryKey: ["quality"], queryFn: () => fetcher("/mock/widgets/data-quality"), refetchInterval: 15000 });
-  const compliance = useQuery({ queryKey: ["compliance"], queryFn: () => fetcher("/mock/widgets/compliance"), refetchInterval: 20000 });
-  const cost = useQuery({ queryKey: ["cost"], queryFn: () => fetcher("/mock/widgets/cost"), refetchInterval: 20000 });
-  const activity = useQuery({ queryKey: ["activity"], queryFn: () => fetcher("/mock/activity?page=1"), refetchInterval: 10000 });
+  const sys = useQuery({ queryKey: ["sys"], queryFn: () => fetcher("/api/mock/widgets/system-health"), refetchInterval: 10000 });
+  const quality = useQuery({ queryKey: ["quality"], queryFn: () => fetcher("/api/mock/widgets/data-quality"), refetchInterval: 15000 });
+  const compliance = useQuery({ queryKey: ["compliance"], queryFn: () => fetcher("/api/mock/widgets/compliance"), refetchInterval: 20000 });
+  const cost = useQuery({ queryKey: ["cost"], queryFn: () => fetcher("/api/mock/widgets/cost"), refetchInterval: 20000 });
+  const activity = useQuery({ queryKey: ["activity"], queryFn: () => fetcher("/api/mock/activity?page=1"), refetchInterval: 10000 });
 
   return (
     <RequireAuth>
