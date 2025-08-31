@@ -51,11 +51,13 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <label className="block">
           <span className="text-sm">Email</span>
-          <input className="input-field mt-1" type="email" required {...register("email")} />
+          <input className="input-field mt-1" type="email" {...register("email")} />
+          {errors.email && <span className="text-red-600 text-xs">{errors.email.message}</span>}
         </label>
         <label className="block">
           <span className="text-sm">Password</span>
-          <input className="input-field mt-1" type="password" required {...register("password")} />
+          <input className="input-field mt-1" type="password" {...register("password")} />
+          {errors.password && <span className="text-red-600 text-xs">{errors.password.message}</span>}
         </label>
         <label className="block">
           <span className="text-sm">Role</span>
