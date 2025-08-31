@@ -8,6 +8,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ReduxProvider store={store}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {children}
+        {/* Socket client mounts globally */}
+        <SocketClient />
       </ThemeProvider>
     </ReduxProvider>
   );
