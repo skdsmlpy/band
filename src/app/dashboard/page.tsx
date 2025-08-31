@@ -18,7 +18,9 @@ export default function DashboardPage() {
   }, [token]);
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <AppShell>
+        <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">Welcome{user ? `, ${user.name}` : ""}</h1>
       </div>
@@ -71,6 +73,8 @@ export default function DashboardPage() {
           <a className="btn-primary" href="/signature">Capture Signature</a>
         </div>
       </div>
-    </div>
+        </div>
+      </AppShell>
+    </RequireAuth>
   );
 }
