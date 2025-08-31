@@ -57,6 +57,25 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto card p-6">
       <h1 className="text-2xl font-semibold mb-4">Sign in</h1>
+      <div className="card p-3 mb-4">
+        <div className="text-sm mb-2">Mock users (click to autofill):</div>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { email: "admin@band.app", role: "Admin" as const },
+            { email: "operator@band.app", role: "Operator" as const },
+            { email: "student@band.app", role: "Student" as const },
+            { email: "director@band.app", role: "Band Director" as const },
+            { email: "equipment@band.app", role: "Equipment Manager" as const },
+            { email: "supervisor@band.app", role: "Supervisor" as const },
+          ].map((u) => (
+            <button key={u.email} type="button" className="btn-primary"
+              onClick={() => { setValue("email", u.email); setValue("password", "password"); setValue("role", u.role); }}>
+              {u.role}
+            </button>
+          ))}
+        </div>
+        <div className="text-xs text-gray-500 mt-1">Password: password</div>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <label className="block">
           <span className="text-sm">Email</span>
