@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Performance Assessment",
+  "x-type": "sub-stage",
+  "x-sub-stage": "performanceAssessment",
+  "x-comments": "Comprehensive assessment of student and equipment readiness for upcoming performances.",
+  "x-implementation-notes": "Frontend Implementation: 1) Performance evaluation forms. 2) Audio/video recording capability. 3) Skill assessment rubrics. 4) Performance history tracking.",
+  "x-parent-stage": "performanceReadiness",
+  "properties": {
+    "performanceEvent": {
+      "type": "string",
+      "title": "Performance Event",
+      "description": "Which performance event are you preparing for?",
+      "ui:schema": {
+        "ui:widget": "select",
+        "ui:options": {
+          "tooltip": "Select the upcoming performance event you're preparing for.\n\nEvent Types:\n🎼 Fall/Spring Concert: Formal concert performance\n🏆 Competition: Regional or state band competition\n🎉 Festival: Music festival or community event\n🎪 Parade: Marching band parade performance\n🎓 Graduation: Commencement ceremony\n\nPreparation requirements vary by event type and performance level."
+        }
+      },
+      "anyOf": [
+        {"const": "fall_concert", "title": "Fall Concert - December 15, 2024"},
+        {"const": "regional_competition", "title": "Regional Competition - March 20, 2025"},
+        {"const": "spring_festival", "title": "Spring Music Festival - May 10, 2025"},
+        {"const": "graduation", "title": "Graduation Ceremony - June 5, 2025"}
+      ]
+    },
+    "musicPieces": {
+      "$ref": "../../fields/checklist.json",
+      "title": "Music Pieces for Performance",
+      "description": "Select the pieces you'll perform at this event",
+      "x-checklist-items": [
+        {
+          "id": "symphony_no1",
+          "title": "Symphony No. 1 in C Major",
+          "description": "Classical piece, advanced difficulty"
+        },
+        {
+          "id": "march_liberty",
+          "title": "March for Liberty",
+          "description": "Patriotic march, intermediate difficulty"
+        },
+        {
+          "id": "film_medley",
+          "title": "Hollywood Film Medley",
+          "description": "Popular film themes, intermediate difficulty"
+        },
+        {
+          "id": "jazz_suite",
+          "title": "Jazz Suite in B♭",
+          "description": "Jazz arrangement, advanced difficulty"
+        }
+      ],
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Select all pieces you'll perform at this event.\n\nPreparation Checklist per Piece:\n✓ Can play from memory or with music\n✓ Tempo is performance-ready\n✓ Dynamic markings are accurate\n✓ Technical passages are clean\n✓ Blend and balance with ensemble\n\nEnsure you're prepared for all selected pieces before the performance date."
+        }
+      }
+    },
+    "preparationLevel": {
+      "type": "object",
+      "title": "Preparation Level Assessment",
+      "description": "Rate your preparation level for different aspects",
+      "properties": {
+        "technical_proficiency": {
+          "type": "integer",
+          "title": "Technical Proficiency",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Rate your technical skill level (1=Beginner, 5=Advanced)",
+          "ui:schema": {
+            "ui:widget": "range",
+            "ui:options": {
+              "tooltip": "Rate your technical proficiency for the selected pieces.\n\nRating Scale:\n1 ⭐ - Beginner: Learning basic notes and rhythms\n2 ⭐⭐ - Developing: Can play slowly with some errors\n3 ⭐⭐⭐ - Competent: Can play at moderate tempo accurately\n4 ⭐⭐⭐⭐ - Advanced: Performance-ready with good technique\n5 ⭐⭐⭐⭐⭐ - Expert: Flawless technique, ready for solos"
+            }
+          }
+        },
+        "musical_expression": {
+          "type": "integer",
+          "title": "Musical Expression",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Rate your musical expression and interpretation",
+          "ui:schema": {
+            "ui:widget": "range",
+            "ui:options": {
+              "tooltip": "Rate your musical expression and artistic interpretation.\n\nExpression Elements:\n🎵 Dynamics: Proper volume changes and contrast\n🎼 Phrasing: Musical sentences and breathing\n🎶 Style: Appropriate genre interpretation\n🎯 Communication: Connecting with the audience\n💫 Artistry: Personal musical voice and creativity"
+            }
+          }
+        },
+        "ensemble_blend": {
+          "type": "integer",
+          "title": "Ensemble Blend",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Rate how well you blend with the ensemble",
+          "ui:schema": {
+            "ui:widget": "range",
+            "ui:options": {
+              "tooltip": "Rate your ability to blend and balance with the ensemble.\n\nEnsemble Skills:\n👂 Listening: Hearing other parts while playing\n⚖️ Balance: Appropriate volume relative to others\n🎵 Intonation: Playing in tune with the group\n⏱️ Timing: Staying together rhythmically\n🤝 Teamwork: Supporting the overall musical goal"
+            }
+          }
+        }
+      }
+    },
+    "practiceHours": {
+      "type": "number",
+      "title": "Practice Hours This Week",
+      "minimum": 0,
+      "maximum": 40,
+      "description": "How many hours did you practice this week?",
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Track your weekly practice hours for performance preparation.\n\nRecommended Practice:\n🎯 Individual Practice: 5-10 hours/week\n🎼 Section Rehearsal: 2-4 hours/week\n🎪 Full Ensemble: 3-6 hours/week\n🏆 Competition Prep: 8-15 hours/week\n\nConsistent practice leads to better performance outcomes."
+        }
+      }
+    },
+    "readinessConfirmation": {
+      "type": "boolean",
+      "title": "I am ready for this performance",
+      "description": "Confirm that you feel prepared for the upcoming performance",
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Confirm your readiness for the upcoming performance.\n\nBefore confirming, ensure:\n✅ You know all assigned music\n✅ Your instrument is performance-ready\n✅ You have the required uniform/attire\n✅ You understand performance logistics\n✅ You feel confident in your preparation\n\nThis confirmation helps directors plan and ensure ensemble readiness."
+        }
+      }
+    }
+  },
+  "required": [
+    "performanceEvent",
+    "musicPieces",
+    "preparationLevel",
+    "practiceHours",
+    "readinessConfirmation"
+  ]
+}

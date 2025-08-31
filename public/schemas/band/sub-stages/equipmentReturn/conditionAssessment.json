@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Equipment Condition Assessment",
+  "x-type": "sub-stage",
+  "x-sub-stage": "conditionAssessment",
+  "x-comments": "Thorough assessment of equipment condition upon return, documenting any changes or damage that occurred during the assignment period.",
+  "x-implementation-notes": "Frontend Implementation: 1) Photo capture for before/after comparison. 2) Condition rating system. 3) Damage documentation forms. 4) Maintenance recommendation system.",
+  "x-parent-stage": "equipmentReturn",
+  "properties": {
+    "equipmentIdentification": {
+      "$ref": "../../fields/scanner.json",
+      "title": "Equipment QR Code",
+      "description": "Scan the QR code of the equipment being returned",
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Scan the QR code on the equipment you're returning.\n\nVerification Process:\n📱 Ensure clear QR code scan\n🔍 Verify equipment matches your assignment\n📋 Check serial number if needed\n✅ Confirm equipment identity before assessment\n\nAccurate identification ensures proper return processing and inventory management."
+        }
+      }
+    },
+    "overallCondition": {
+      "type": "string",
+      "title": "Overall Equipment Condition",
+      "enum": ["excellent", "good", "fair", "poor", "damaged"],
+      "description": "Rate the overall condition of the equipment",
+      "ui:schema": {
+        "ui:widget": "radio",
+        "ui:options": {
+          "tooltip": "Assess the overall condition of the equipment upon return.\n\nCondition Ratings:\n⭐⭐⭐⭐⭐ Excellent: Like new, no visible wear\n⭐⭐⭐⭐ Good: Minor wear, fully functional\n⭐⭐⭐ Fair: Noticeable wear, minor issues\n⭐⭐ Poor: Significant wear, needs attention\n⭐ Damaged: Requires repair before next use\n\nBe honest in your assessment to ensure proper maintenance scheduling."
+        }
+      }
+    },
+    "conditionDetails": {
+      "type": "object",
+      "title": "Detailed Condition Assessment",
+      "description": "Detailed assessment of specific equipment components",
+      "properties": {
+        "physicalAppearance": {
+          "$ref": "../../fields/checklist.json",
+          "title": "Physical Appearance Issues",
+          "description": "Check any physical appearance issues observed",
+          "x-checklist-items": [
+            {
+              "id": "scratches",
+              "title": "Scratches or Scuff Marks",
+              "description": "Visible surface damage"
+            },
+            {
+              "id": "dents",
+              "title": "Dents or Dings", 
+              "description": "Physical deformation of metal parts"
+            },
+            {
+              "id": "discoloration",
+              "title": "Discoloration or Staining",
+              "description": "Color changes or permanent marks"
+            },
+            {
+              "id": "worn_parts",
+              "title": "Worn or Damaged Parts",
+              "description": "Components showing excessive wear"
+            },
+            {
+              "id": "missing_parts",
+              "title": "Missing Parts or Accessories",
+              "description": "Any components not returned with instrument"
+            }
+          ],
+          "ui:schema": {
+            "ui:options": {
+              "tooltip": "Document any physical appearance issues.\n\nCommon Issues by Type:\n🎺 Brass: Dents, lacquer wear, valve sticking\n🎵 Woodwind: Pad wear, key alignment, cork condition\n🥁 Percussion: Head condition, hardware looseness\n🎻 Strings: Bridge alignment, string condition, bow wear\n\nDetailed documentation helps with maintenance planning and cost assessment."
+            }
+          }
+        },
+        "functionalIssues": {
+          "$ref": "../../fields/checklist.json",
+          "title": "Functional Issues",
+          "description": "Check any functional problems with the equipment",
+          "x-checklist-items": [
+            {
+              "id": "tuning_problems",
+              "title": "Tuning or Intonation Issues",
+              "description": "Difficulty staying in tune"
+            },
+            {
+              "id": "mechanical_issues",
+              "title": "Mechanical Problems",
+              "description": "Valves, keys, or moving parts not working properly"
+            },
+            {
+              "id": "sound_quality",
+              "title": "Sound Quality Issues",
+              "description": "Unusual sounds, buzzing, or tone problems"
+            },
+            {
+              "id": "electrical_issues",
+              "title": "Electrical Problems (if applicable)",
+              "description": "Issues with electronic components"
+            }
+          ],
+          "ui:schema": {
+            "ui:options": {
+              "tooltip": "Document any functional problems with the equipment.\n\nFunctional Assessment:\n🔧 Test all moving parts (valves, keys, slides)\n🎵 Check tuning and intonation across range\n🔊 Listen for unusual sounds or buzzes\n⚡ Test electrical components if applicable\n🎯 Verify all functions work as expected\n\nFunctional issues may require professional repair before next assignment."
+            }
+          }
+        }
+      }
+    },
+    "damagePhotos": {
+      "type": "array",
+      "title": "Damage Documentation Photos",
+      "description": "Take photos of any damage or issues (optional)",
+      "items": {
+        "type": "string",
+        "format": "data-url"
+      },
+      "ui:schema": {
+        "ui:widget": "file",
+        "ui:options": {
+          "accept": "image/*",
+          "multiple": true,
+          "tooltip": "Photograph any damage or issues for documentation.\n\nPhoto Guidelines:\n📸 Clear, well-lit photos of damage areas\n🔍 Close-up shots showing detail\n📏 Include reference for size/scale if needed\n🏷️ Take photos from multiple angles\n💾 Images help with repair estimates and insurance\n\nPhotos are optional but recommended for significant damage."
+        }
+      }
+    },
+    "cleaningStatus": {
+      "type": "string",
+      "title": "Equipment Cleaning Status",
+      "enum": ["cleaned", "needs_cleaning", "professionally_cleaned"],
+      "description": "Has the equipment been cleaned before return?",
+      "ui:schema": {
+        "ui:widget": "radio",
+        "ui:options": {
+          "tooltip": "Indicate the cleaning status of the returned equipment.\n\nCleaning Standards:\n✨ Cleaned: Basic cleaning completed by student\n🧽 Needs Cleaning: Requires cleaning before next use\n🏪 Professionally Cleaned: Deep cleaned by service provider\n\nProper cleaning extends equipment life and ensures hygiene for the next user."
+        }
+      }
+    },
+    "damageExplanation": {
+      "type": "string",
+      "title": "Explanation of Any Damage",
+      "description": "If there is damage, please explain what happened",
+      "ui:schema": {
+        "ui:widget": "textarea",
+        "ui:options": {
+          "rows": 3,
+          "tooltip": "Provide details about any damage that occurred.\n\nInclude Information About:\n• When the damage occurred\n• How the damage happened\n• Whether it was accidental or due to normal wear\n• Any immediate actions you took\n• Whether the equipment was still usable\n\nHonest reporting helps improve equipment care and prevents future issues."
+        }
+      }
+    },
+    "maintenanceRecommendations": {
+      "$ref": "../../fields/checklist.json",
+      "title": "Maintenance Recommendations",
+      "description": "What maintenance do you recommend for this equipment?",
+      "x-checklist-items": [
+        {
+          "id": "basic_cleaning",
+          "title": "Basic Cleaning",
+          "description": "Standard cleaning and polishing"
+        },
+        {
+          "id": "deep_cleaning",
+          "title": "Deep Professional Cleaning",
+          "description": "Thorough professional cleaning service"
+        },
+        {
+          "id": "minor_adjustment",
+          "title": "Minor Adjustments",
+          "description": "Small adjustments to improve playability"
+        },
+        {
+          "id": "repair_needed",
+          "title": "Professional Repair Required",
+          "description": "Needs professional repair before next use"
+        },
+        {
+          "id": "parts_replacement",
+          "title": "Parts Replacement",
+          "description": "Specific parts need replacement"
+        },
+        {
+          "id": "no_maintenance",
+          "title": "No Maintenance Needed",
+          "description": "Equipment is in excellent condition"
+        }
+      ],
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Recommend appropriate maintenance based on your assessment.\n\nMaintenance Types:\n🧹 Basic Cleaning: Regular maintenance\n🏪 Deep Cleaning: Professional service\n🔧 Minor Adjustment: Quick fixes\n🛠️ Professional Repair: Significant issues\n🔄 Parts Replacement: Worn components\n✅ No Maintenance: Excellent condition\n\nYour recommendations help prioritize maintenance schedules."
+        }
+      }
+    }
+  },
+  "required": [
+    "equipmentIdentification",
+    "overallCondition",
+    "conditionDetails",
+    "cleaningStatus"
+  ]
+}

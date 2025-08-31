@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Practice Goals",
+  "description": "Set specific goals for the practice session",
+  "properties": {
+    "primaryGoals": {
+      "type": "array",
+      "title": "Primary Practice Goals",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "technicalFocus": {
+      "type": "array",
+      "title": "Technical Focus Areas",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Intonation",
+          "Rhythm",
+          "Dynamics",
+          "Articulation",
+          "Balance",
+          "Blend",
+          "Tempo",
+          "Phrasing"
+        ]
+      }
+    },
+    "expectedDuration": {
+      "type": "integer",
+      "title": "Expected Practice Duration (minutes)",
+      "minimum": 15,
+      "maximum": 180
+    },
+    "successCriteria": {
+      "type": "string",
+      "title": "How will you know the goals are achieved?"
+    }
+  },
+  "required": ["primaryGoals", "expectedDuration"]
+}

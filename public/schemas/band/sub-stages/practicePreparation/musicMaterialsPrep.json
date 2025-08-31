@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Music Materials Preparation",
+  "description": "Prepare sheet music and materials for practice",
+  "properties": {
+    "musicPieces": {
+      "type": "array",
+      "title": "Music Pieces",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Piece Title"
+          },
+          "composer": {
+            "type": "string",
+            "title": "Composer"
+          },
+          "difficulty": {
+            "type": "string",
+            "title": "Difficulty Level",
+            "enum": ["Beginner", "Intermediate", "Advanced"]
+          },
+          "prepared": {
+            "type": "boolean",
+            "title": "Materials Prepared",
+            "default": false
+          }
+        },
+        "required": ["title"]
+      }
+    },
+    "additionalMaterials": {
+      "type": "array",
+      "title": "Additional Materials",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metronomeRequired": {
+      "type": "boolean",
+      "title": "Metronome Required",
+      "default": false
+    }
+  }
+}

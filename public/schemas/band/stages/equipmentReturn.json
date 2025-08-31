@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Equipment Return",
+  "description": "Return equipment after use and document condition",
+  "x-type": "stage",
+  "x-stage": "equipmentReturn",
+  "x-assignee-user": "INITIATOR",
+  "x-equipment-manager-approval": true,
+  "x-subtypes": [
+    "equipmentInspection",
+    "conditionAssessment",
+    "returnConfirmation",
+    "maintenanceScheduling"
+  ],
+  "ui:schema": {
+    "ui:options": {
+      "icon": "material-symbols:assignment-return"
+    }
+  },
+  "properties": {
+    "equipmentInspection": {
+      "$ref": "../sub-stages/equipmentReturn/equipmentInspection.json"
+    },
+    "conditionAssessment": {
+      "$ref": "../sub-stages/equipmentReturn/conditionAssessment.json"
+    },
+    "returnConfirmation": {
+      "$ref": "../sub-stages/equipmentReturn/returnConfirmation.json"
+    },
+    "maintenanceScheduling": {
+      "$ref": "../sub-stages/equipmentReturn/maintenanceScheduling.json"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Practice Preparation",
+  "description": "Prepare equipment and materials for practice sessions",
+  "x-type": "stage",
+  "x-stage": "practicePreparation",
+  "x-assignee-user": "INITIATOR",
+  "x-subtypes": [
+    "practiceScheduling",
+    "equipmentVerification", 
+    "musicMaterialsPrep",
+    "practiceGoals"
+  ],
+  "ui:schema": {
+    "ui:options": {
+      "icon": "material-symbols:timer"
+    }
+  },
+  "properties": {
+    "practiceScheduling": {
+      "$ref": "../sub-stages/practicePreparation/practiceScheduling.json"
+    },
+    "equipmentVerification": {
+      "$ref": "../sub-stages/practicePreparation/equipmentVerification.json"
+    },
+    "musicMaterialsPrep": {
+      "$ref": "../sub-stages/practicePreparation/musicMaterialsPrep.json"
+    },
+    "practiceGoals": {
+      "$ref": "../sub-stages/practicePreparation/practiceGoals.json"
+    }
+  }
+}

@@ -8,7 +8,7 @@ export default function HomePage() {
   const isAuthenticated = useAppSelector((s) => !!s.auth.token);
 
   useEffect(() => {
-    router.replace(isAuthenticated ? "/dashboard" : "/login");
+    router.replace(isAuthenticated ? "/landing" : "/login");
   }, [isAuthenticated, router]);
 
   return null;

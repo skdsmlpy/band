@@ -1,5 +1,7 @@
 # band
 
+b backend, then log in with admin@band.app / password.
+
 Cross-platform workflow management MVP (frontend) built with Next.js, TypeScript, Tailwind, Redux Toolkit, RJSF.
 
 Frontend scripts:

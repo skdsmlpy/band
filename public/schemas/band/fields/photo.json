@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "string",
+  "format": "data-url",
+  "title": "Photo Capture",
+  "description": "Capture photo using device camera",
+  "ui:schema": {
+    "ui:widget": "file",
+    "ui:options": {
+      "accept": "image/*",
+      "capture": "camera"
+    }
+  }
+}

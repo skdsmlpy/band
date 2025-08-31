@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Event Equipment Setup",
+  "description": "Set up equipment for band performance or event",
+  "properties": {
+    "eventDetails": {
+      "type": "object",
+      "title": "Event Information",
+      "properties": {
+        "eventName": {
+          "type": "string",
+          "title": "Event Name"
+        },
+        "venue": {
+          "type": "string",
+          "title": "Venue"
+        },
+        "setupTime": {
+          "type": "string",
+          "format": "time",
+          "title": "Setup Time"
+        }
+      },
+      "required": ["eventName", "venue"]
+    },
+    "equipmentSetup": {
+      "type": "array",
+      "title": "Equipment Setup Tasks",
+      "items": {
+        "type": "object",
+        "properties": {
+          "setupItem": {
+            "type": "string",
+            "title": "Setup Item",
+            "enum": [
+              "Sound System",
+              "Microphones",
+              "Music Stands",
+              "Chairs",
+              "Percussion Setup",
+              "Lighting",
+              "Stage Risers",
+              "Piano/Keyboard"
+            ]
+          },
+          "setupStatus": {
+            "type": "string",
+            "title": "Setup Status",
+            "enum": ["Not Started", "In Progress", "Complete", "Issue"],
+            "default": "Not Started"
+          },
+          "assignedTo": {
+            "type": "string",
+            "title": "Assigned To"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Setup Notes"
+          }
+        },
+        "required": ["setupItem", "setupStatus"]
+      }
+    },
+    "soundCheck": {
+      "type": "object",
+      "title": "Sound Check",
+      "properties": {
+        "completed": {
+          "type": "boolean",
+          "title": "Sound Check Completed",
+          "default": false
+        },
+        "soundEngineer": {
+          "type": "string",
+          "title": "Sound Engineer"
+        },
+        "issues": {
+          "type": "string",
+          "title": "Sound Issues (if any)"
+        }
+      }
+    }
+  },
+  "required": ["eventDetails", "equipmentSetup"]
+}
