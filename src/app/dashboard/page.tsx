@@ -3,6 +3,8 @@ import { useAppSelector } from "@/store";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { apiGet } from "@/lib/api";
+import RequireAuth from "@/components/auth/RequireAuth";
+import { AppShell } from "@/components/shell/AppShell";
 
 export default function DashboardPage() {
   const user = useAppSelector((s) => s.auth.user);
