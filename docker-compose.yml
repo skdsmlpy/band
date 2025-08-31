@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+  # PostgreSQL Database
   db:
     image: postgres:15-alpine
     restart: unless-stopped
@@ -7,22 +8,172 @@ services:
       POSTGRES_USER: band
       POSTGRES_PASSWORD: bandpass
       POSTGRES_DB: banddb
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./backend/src/main/resources/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U band -d banddb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - band-network
+
+  # Redis for caching and session storage
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass bandredis
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - band-network
+
+  # MinIO for file storage (digital signatures, photos)
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: bandminio
+      MINIO_ROOT_PASSWORD: bandminio123
+      MINIO_DEFAULT_BUCKETS: "band-signatures,band-photos,band-documents"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - band-network
+
+  # Spring Boot Backend Application
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
+      # Database configuration
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/banddb
       SPRING_DATASOURCE_USERNAME: band
       SPRING_DATASOURCE_PASSWORD: bandpass
-      APP_JWT_SECRET: "dev-secret-change-me"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_SHOW_SQL: "false"
+      
+      # Redis configuration
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: bandredis
+      SPRING_REDIS_TIMEOUT: 2000ms
+      
+      # MinIO configuration
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: bandminio
+      MINIO_SECRET_KEY: bandminio123
+      MINIO_BUCKET_SIGNATURES: band-signatures
+      MINIO_BUCKET_PHOTOS: band-photos
+      MINIO_BUCKET_DOCUMENTS: band-documents
+      
+      # Security configuration
+      APP_JWT_SECRET: "band-equipment-management-jwt-secret-key-2024"
+      APP_JWT_EXPIRATION: 86400000
+      APP_CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://frontend:3000"
+      
+      # WebSocket configuration
+      WEBSOCKET_ALLOWED_ORIGINS: "http://localhost:3000,http://frontend:3000"
+      
+      # Application configuration
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8080
+      LOGGING_LEVEL_COM_BAND: INFO
+      LOGGING_LEVEL_ROOT: WARN
+      
+      # Management endpoints
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics,prometheus"
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
     ports:
       - "8080:8080"
-    command: ["java","-jar","/app/app.jar"]
+    volumes:
+      - backend_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - band-network
+
+  # Next.js Frontend Application  
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://backend:8080
+      NEXT_PUBLIC_WS_BASE_URL: ws://backend:8080
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: "band-nextauth-secret-2024"
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    networks:
+      - band-network
+
+  # NGINX Reverse Proxy (Optional - for production)
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - band-network
+    profiles:
+      - production
+
 volumes:
   db_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+  backend_logs:
+    driver: local
+
+networks:
+  band-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

@@ -17,7 +17,11 @@ type LoginForm = z.infer<typeof LoginSchema>;
 
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<LoginForm>({
-    defaultValues: { role: "Operator" as const },
+    defaultValues: { 
+      email: "student@band.app",
+      password: "password", 
+      role: "Student" as const 
+    },
     resolver: zodResolver(LoginSchema)
   });
   const dispatch = useAppDispatch();
@@ -55,7 +59,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto card p-6">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-md card p-4 sm:p-6">
       <h1 className="text-2xl font-semibold mb-4">Sign in</h1>
       <div className="card p-3 mb-4">
         <div className="text-sm mb-2">Mock users (click to autofill):</div>
@@ -100,6 +105,7 @@ export default function LoginPage() {
         </label>
         <button className="btn-primary w-full mt-2" type="submit">Continue</button>
       </form>
+      </div>
     </div>
   );
 }

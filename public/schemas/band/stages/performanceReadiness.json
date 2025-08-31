@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Performance Readiness",
+  "description": "Verify readiness for performances and events",
+  "x-type": "stage",
+  "x-stage": "performanceReadiness",
+  "x-assignee-user": "BAND_DIRECTOR",
+  "x-peer-review": true,
+  "x-subtypes": [
+    "performanceAssessment",
+    "equipmentInspection",
+    "uniformPreparation",
+    "directorApproval"
+  ],
+  "ui:schema": {
+    "ui:options": {
+      "icon": "material-symbols:theater-comedy"
+    }
+  },
+  "properties": {
+    "performanceAssessment": {
+      "$ref": "../sub-stages/performanceReadiness/performanceAssessment.json"
+    },
+    "equipmentInspection": {
+      "$ref": "../sub-stages/performanceReadiness/equipmentInspection.json"
+    },
+    "uniformPreparation": {
+      "$ref": "../sub-stages/performanceReadiness/uniformPreparation.json"
+    },
+    "directorApproval": {
+      "$ref": "../sub-stages/performanceReadiness/directorApproval.json"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Equipment Inspection",
+  "description": "Pre-performance equipment inspection and verification",
+  "properties": {
+    "inspectionItems": {
+      "type": "array",
+      "title": "Equipment to Inspect",
+      "items": {
+        "type": "object",
+        "properties": {
+          "equipmentType": {
+            "type": "string",
+            "title": "Equipment Type",
+            "enum": ["Trumpet", "Trombone", "French Horn", "Tuba", "Flute", "Clarinet", "Saxophone", "Percussion", "String"]
+          },
+          "serialNumber": {
+            "type": "string",
+            "title": "Serial Number"
+          },
+          "inspectionStatus": {
+            "type": "string",
+            "title": "Inspection Status",
+            "enum": ["Pass", "Fail", "Needs Attention"],
+            "default": "Pass"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Inspection Notes"
+          }
+        },
+        "required": ["equipmentType", "inspectionStatus"]
+      }
+    },
+    "overallStatus": {
+      "type": "string",
+      "title": "Overall Equipment Status",
+      "enum": ["All Clear", "Some Issues", "Major Problems"],
+      "default": "All Clear"
+    },
+    "inspectorName": {
+      "type": "string",
+      "title": "Inspector Name"
+    },
+    "inspectionDate": {
+      "type": "string",
+      "format": "date",
+      "title": "Inspection Date"
+    }
+  },
+  "required": ["inspectionItems", "inspectorName", "inspectionDate"]
+}

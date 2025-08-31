@@ -19,24 +19,16 @@
       "$ref": "stages/equipmentCheckout.json"
     },
     "practicePreparation": {
-      "type": "object",
-      "title": "Practice Preparation",
-      "properties": {}
+      "$ref": "stages/practicePreparation.json"
     },
     "performanceReadiness": {
-      "type": "object",
-      "title": "Performance Readiness",
-      "properties": {}
+      "$ref": "stages/performanceReadiness.json"
     },
     "eventExecution": {
-      "type": "object",
-      "title": "Event Execution",
-      "properties": {}
+      "$ref": "stages/eventExecution.json"
     },
     "equipmentReturn": {
-      "type": "object",
-      "title": "Equipment Return",
-      "properties": {}
+      "$ref": "stages/equipmentReturn.json"
     }
   }
 }

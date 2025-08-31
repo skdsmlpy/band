@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "string",
+  "title": "Digital Signature",
+  "description": "Capture digital signature",
+  "ui:schema": {
+    "ui:widget": "signature",
+    "ui:options": {
+      "width": 300,
+      "height": 120,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent"
+    }
+  }
+}

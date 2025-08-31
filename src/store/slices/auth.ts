@@ -13,10 +13,31 @@ interface AuthState {
   } | null;
 }
 
+// Check for persisted token on initialization
+const getInitialToken = () => {
+  if (typeof window === 'undefined') return null;
+  
+  // Check cookie for token
+  const tokenMatch = document.cookie.match(/token=([^;]+)/);
+  return tokenMatch ? tokenMatch[1] : null;
+};
+
+const getInitialUser = () => {
+  if (typeof window === 'undefined') return null;
+  
+  // Check localStorage for user data
+  try {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+  } catch {
+    return null;
+  }
+};
+
 const initialState: AuthState = {
-  token: null,
+  token: getInitialToken(),
   refreshToken: null,
-  user: null,
+  user: getInitialUser(),
 };
 
 const authSlice = createSlice({
@@ -30,11 +51,22 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.refreshToken = action.payload.refreshToken ?? null;
       state.user = action.payload.user;
+      
+      // Persist user data to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+      }
     },
     logout: (state) => {
       state.token = null;
       state.refreshToken = null;
       state.user = null;
+      
+      // Clear persisted data
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user');
+        document.cookie = 'token=; Max-Age=0; path=/';
+      }
     },
   },
 });

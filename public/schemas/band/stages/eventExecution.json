@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Event Execution",
+  "description": "Manage equipment and logistics during performance events",
+  "x-type": "stage",
+  "x-stage": "eventExecution",
+  "x-assignee-user": "BAND_DIRECTOR",
+  "x-subtypes": [
+    "equipmentSetup",
+    "soundCheck",
+    "performanceExecution",
+    "eventDocumentation"
+  ],
+  "ui:schema": {
+    "ui:options": {
+      "icon": "material-symbols:event"
+    }
+  },
+  "properties": {
+    "equipmentSetup": {
+      "$ref": "../sub-stages/eventExecution/equipmentSetup.json"
+    },
+    "soundCheck": {
+      "$ref": "../sub-stages/eventExecution/soundCheck.json"
+    },
+    "performanceExecution": {
+      "$ref": "../sub-stages/eventExecution/performanceExecution.json"
+    },
+    "eventDocumentation": {
+      "$ref": "../sub-stages/eventExecution/eventDocumentation.json"
+    }
+  }
+}

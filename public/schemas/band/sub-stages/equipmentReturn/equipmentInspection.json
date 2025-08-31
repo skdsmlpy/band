@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Return Equipment Inspection",
+  "description": "Inspect equipment condition upon return",
+  "properties": {
+    "returnedEquipment": {
+      "type": "array",
+      "title": "Equipment Being Returned",
+      "items": {
+        "type": "object",
+        "properties": {
+          "equipmentType": {
+            "type": "string",
+            "title": "Equipment Type"
+          },
+          "serialNumber": {
+            "type": "string",
+            "title": "Serial Number"
+          },
+          "conditionAtReturn": {
+            "type": "string",
+            "title": "Condition at Return",
+            "enum": ["Excellent", "Good", "Fair", "Poor", "Damaged"],
+            "default": "Good"
+          },
+          "damageNotes": {
+            "type": "string",
+            "title": "Damage or Maintenance Notes"
+          },
+          "requiresMaintenance": {
+            "type": "boolean",
+            "title": "Requires Maintenance",
+            "default": false
+          }
+        },
+        "required": ["equipmentType", "conditionAtReturn"]
+      }
+    },
+    "returnDate": {
+      "type": "string",
+      "format": "date",
+      "title": "Return Date"
+    },
+    "inspectedBy": {
+      "type": "string",
+      "title": "Inspected By"
+    }
+  },
+  "required": ["returnedEquipment", "returnDate", "inspectedBy"]
+}
