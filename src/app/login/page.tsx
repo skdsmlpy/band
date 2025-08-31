@@ -1,17 +1,25 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "@/store";
 import { loginSuccess } from "@/store/slices/auth";
 import { useRouter } from "next/navigation";
+import { setToken } from "@/lib/api/auth";
 
-interface LoginForm {
-  email: string;
-  password: string;
-  role: "Admin" | "Supervisor" | "Operator" | "Student" | "Band Director" | "Equipment Manager";
-}
+const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+  role: z.enum(["Admin","Supervisor","Operator","Student","Band Director","Equipment Manager"])
+});
+
+type LoginForm = z.infer<typeof LoginSchema>;
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm<LoginForm>({ defaultValues: { role: "Operator" } });
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+    defaultValues: { role: "Operator" as const },
+    resolver: zodResolver(LoginSchema)
+  });
   const dispatch = useAppDispatch();
   const router = useRouter();
 
