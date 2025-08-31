@@ -25,11 +25,20 @@
       "@/components/*": [
         "src/components/*"
       ],
+      "@/components": [
+        "src/components/index.ts"
+      ],
       "@/store/*": [
         "src/store/*"
       ],
+      "@/store": [
+        "src/store/index.ts"
+      ],
       "@/lib/*": [
         "src/lib/*"
+      ],
+      "@/lib": [
+        "src/lib/index.ts"
       ],
       "@/schemas/*": [
         "schemas/*"
