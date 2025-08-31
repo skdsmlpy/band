@@ -37,5 +37,41 @@ public class DevDataLoader {
       u.setPassword(encoder.encode("password"));
       return users.save(u);
     });
+
+    users.findByEmail("student@band.app").orElseGet(() -> {
+      User u = new User();
+      u.setEmail("student@band.app");
+      u.setName("Student User");
+      u.setRole("Student");
+      u.setPassword(encoder.encode("password"));
+      return users.save(u);
+    });
+
+    users.findByEmail("director@band.app").orElseGet(() -> {
+      User u = new User();
+      u.setEmail("director@band.app");
+      u.setName("Band Director");
+      u.setRole("Band Director");
+      u.setPassword(encoder.encode("password"));
+      return users.save(u);
+    });
+
+    users.findByEmail("equipment@band.app").orElseGet(() -> {
+      User u = new User();
+      u.setEmail("equipment@band.app");
+      u.setName("Equipment Manager");
+      u.setRole("Equipment Manager");
+      u.setPassword(encoder.encode("password"));
+      return users.save(u);
+    });
+
+    users.findByEmail("supervisor@band.app").orElseGet(() -> {
+      User u = new User();
+      u.setEmail("supervisor@band.app");
+      u.setName("Supervisor User");
+      u.setRole("Supervisor");
+      u.setPassword(encoder.encode("password"));
+      return users.save(u);
+    });
   }
 }
