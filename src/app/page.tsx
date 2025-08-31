@@ -1,5 +1,5 @@
 "use client";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
