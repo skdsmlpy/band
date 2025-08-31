@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Student Verification",
+  "x-type": "sub-stage",
+  "x-sub-stage": "studentVerification",
+  "x-comments": "This schema captures student identification and eligibility verification for equipment checkout, ensuring proper assignment and accountability.",
+  "x-implementation-notes": "Frontend Implementation: 1) Implement student ID scanner or manual entry. 2) Display student information for verification. 3) Show equipment assignment history. 4) Validate student eligibility status.",
+  "x-parent-stage": "equipmentCheckout",
+  "properties": {
+    "studentId": {
+      "$ref": "../../fields/scanner.json",
+      "title": "Student ID Scan",
+      "description": "Scan or enter student ID number",
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Scan student ID card or manually enter student ID number.\n\nVerification Requirements:\n✓ Valid student ID in system\n✓ Student is enrolled in band program\n✓ No outstanding equipment or fees\n✓ Parent/guardian permission forms on file\n✓ Student meets age/grade requirements for instrument\n\nEnsures proper equipment assignment and student accountability for borrowed instruments and equipment."
+        }
+      }
+    },
+    "studentInfo": {
+      "$ref": "../../fields/readonly.json",
+      "title": "Student Information",
+      "description": "Display verified student details",
+      "ui:schema": {
+        "ui:expressions": {
+          "value": "$.studentDatabase.studentName",
+          "grade": "$.studentDatabase.gradeLevel",
+          "section": "$.studentDatabase.bandSection",
+          "contact": "$.studentDatabase.parentContact"
+        }
+      }
+    },
+    "eligibilityCheck": {
+      "$ref": "../../fields/toggle.json",
+      "title": "Student Eligible for Equipment Checkout",
+      "description": "Confirm student meets all requirements",
+      "ui:schema": {
+        "ui:options": {
+          "tooltip": "Verify student eligibility for equipment checkout.\n\nEligibility Requirements:\n✓ Currently enrolled in band program\n✓ Academic standing meets requirements\n✓ All required forms and permissions on file\n✓ No outstanding equipment or fees\n✓ Appropriate skill level for requested equipment\n\nConfirms student is authorized to check out band equipment and assumes responsibility for its care and return."
+        }
+      }
+    }
+  },
+  "required": ["studentId", "studentInfo", "eligibilityCheck"]
+}
