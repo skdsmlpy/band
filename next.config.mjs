@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    turbo: {},
-    typedRoutes: true
-  }
+  typedRoutes: true,
+  turbopack: {}
 };
 
 export default nextConfig;
