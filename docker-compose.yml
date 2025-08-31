@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: band
+      POSTGRES_PASSWORD: bandpass
+      POSTGRES_DB: banddb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/banddb
+      SPRING_DATASOURCE_USERNAME: band
+      SPRING_DATASOURCE_PASSWORD: bandpass
+      APP_JWT_SECRET: "dev-secret-change-me"
+    ports:
+      - "8080:8080"
+    command: ["java","-jar","/app/app.jar"]
+volumes:
+  db_data:
