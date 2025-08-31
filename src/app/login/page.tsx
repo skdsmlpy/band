@@ -32,13 +32,14 @@ export default function LoginPage() {
       });
       if (!res.ok) throw new Error("Login failed");
       const json = await res.json();
+      setToken(json.token);
       dispatch(
         loginSuccess({
           token: json.token,
           user: { id: "me", name: json.name, email: data.email, role: data.role },
         })
       );
-      router.push("/dashboard");
+      router.push("/landing");
     } catch (e) {
       alert("Authentication failed. Use admin@band.app / password");
     }
